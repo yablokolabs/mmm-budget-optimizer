@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, e.g. v1.0.0 (tag is created on the selected branch)"
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  VERSION: ${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check version format
+        run: echo "$VERSION" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$' || { echo "bad version '$VERSION'"; exit 1; }
+      - uses: actions/checkout@v4
+      - name: Zip matches the skill folder
+        run: python3 tests/check_zip.py
+      - name: Assets
+        run: |
+          mkdir release
+          cp dist/mmm-budget-optimizer.zip "release/mmm-budget-optimizer-${VERSION}.zip"
+          cp demo-video/final/mmm-budget-optimizer-demo.mp4 release/
+          (cd release && sha256sum * > SHA256SUMS)
+      - name: Notes
+        run: |
+          awk -v tag="## ${VERSION}" '$0 == tag {on=1; next} on && /^## / {exit} on {print}' CHANGELOG.md > notes.md
+          test -s notes.md
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$VERSION" release/* --target "$GITHUB_SHA" --title "MMM Budget Optimizer $VERSION" --notes-file notes.md

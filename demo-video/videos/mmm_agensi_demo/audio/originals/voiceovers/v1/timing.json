@@ -1,0 +1,110 @@
+{
+  "beats": [
+    {
+      "segment": "mmm-title",
+      "beat": 0,
+      "text": "MMM Budget Optimizer. A skill for your coding agent.",
+      "start": 0.35,
+      "end": 4.19
+    },
+    {
+      "segment": "mmm-title",
+      "beat": 1,
+      "text": "It reads your weekly sales and ad spend, and shows where the next pound sells most.",
+      "start": 4.64,
+      "end": 9.056
+    },
+    {
+      "segment": "mmm-pipeline",
+      "beat": 0,
+      "text": "You hand your agent three years of weekly data.",
+      "start": 9.956,
+      "end": 12.537
+    },
+    {
+      "segment": "mmm-pipeline",
+      "beat": 1,
+      "text": "The engine fits the model, checks it on weeks it never saw, and only then moves the budget.",
+      "start": 12.987,
+      "end": 17.958
+    },
+    {
+      "segment": "mmm-fit",
+      "beat": 0,
+      "text": "The fit takes twenty two milliseconds.",
+      "start": 18.858,
+      "end": 20.949
+    },
+    {
+      "segment": "mmm-fit",
+      "beat": 1,
+      "text": "On the thirteen weeks it never saw, it misses actual sales by under one percent.",
+      "start": 21.399,
+      "end": 26.028
+    },
+    {
+      "segment": "mmm-curves",
+      "beat": 0,
+      "text": "Each channel gets a response curve.",
+      "start": 26.928,
+      "end": 28.976
+    },
+    {
+      "segment": "mmm-curves",
+      "beat": 1,
+      "text": "The slope at today's spend is the marginal return. Search returns two point three per pound. Social returns one point two.",
+      "start": 29.426,
+      "end": 36.701
+    },
+    {
+      "segment": "mmm-plan",
+      "beat": 0,
+      "text": "The optimizer moves budget from social into search and TV, with the same total spend.",
+      "start": 37.601,
+      "end": 42.721
+    },
+    {
+      "segment": "mmm-plan",
+      "beat": 1,
+      "text": "Every channel ends at a marginal return of one point nine two, so no pound has a better place to go.",
+      "start": 43.171,
+      "end": 48.909
+    },
+    {
+      "segment": "mmm-plan",
+      "beat": 2,
+      "text": "Weekly sales from media rise by ninety five.",
+      "start": 49.359,
+      "end": 52.069
+    },
+    {
+      "segment": "mmm-proof",
+      "beat": 0,
+      "text": "We tested it on ten datasets with known answers.",
+      "start": 52.969,
+      "end": 55.742
+    },
+    {
+      "segment": "mmm-proof",
+      "beat": 1,
+      "text": "On nine of them, the plan captured over ninety percent of the best possible gain. On one, sixty three percent.",
+      "start": 56.192,
+      "end": 62.4
+    },
+    {
+      "segment": "mmm-cta",
+      "beat": 0,
+      "text": "MMM Budget Optimizer is free on Agensi.",
+      "start": 63.3,
+      "end": 66.18
+    },
+    {
+      "segment": "mmm-cta",
+      "beat": 1,
+      "text": "The engine is open source, at yabloko labs slash M M M engine.",
+      "start": 66.63,
+      "end": 70.875
+    }
+  ],
+  "length_s": 71.425
+}

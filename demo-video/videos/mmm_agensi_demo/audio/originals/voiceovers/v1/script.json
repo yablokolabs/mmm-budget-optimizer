@@ -1,0 +1,35 @@
+{
+  "voice": "bf_emma",
+  "speed": 1.0,
+  "segments": [
+    ["mmm-title", [
+      "MMM Budget Optimizer. A skill for your coding agent.",
+      "It reads your weekly sales and ad spend, and shows where the next pound sells most."
+    ]],
+    ["mmm-pipeline", [
+      "You hand your agent three years of weekly data.",
+      "The engine fits the model, checks it on weeks it never saw, and only then moves the budget."
+    ]],
+    ["mmm-fit", [
+      "The fit takes twenty two milliseconds.",
+      "On the thirteen weeks it never saw, it misses actual sales by under one percent."
+    ]],
+    ["mmm-curves", [
+      "Each channel gets a response curve.",
+      "The slope at today's spend is the marginal return. Search returns two point three per pound. Social returns one point two."
+    ]],
+    ["mmm-plan", [
+      "The optimizer moves budget from social into search and TV, with the same total spend.",
+      "Every channel ends at a marginal return of one point nine two, so no pound has a better place to go.",
+      "Weekly sales from media rise by ninety five."
+    ]],
+    ["mmm-proof", [
+      "We tested it on ten datasets with known answers.",
+      "On nine of them, the plan captured over ninety percent of the best possible gain. On one, sixty three percent."
+    ]],
+    ["mmm-cta", [
+      "MMM Budget Optimizer is free on Agensi.",
+      "The engine is open source, at yabloko labs slash M M M engine."
+    ]]
+  ]
+}

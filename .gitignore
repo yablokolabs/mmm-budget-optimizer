@@ -1,0 +1,4 @@
+.env
+node_modules/
+demo-video/render/
+__pycache__/

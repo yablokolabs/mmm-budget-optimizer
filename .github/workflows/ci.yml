@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  skill:
+    name: Skill end to end
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build mmm-engine (main)
+        run: |
+          git clone --depth 1 https://github.com/yablokolabs/mmm-engine "$RUNNER_TEMP/mmm-engine"
+          cmake -S "$RUNNER_TEMP/mmm-engine" -B "$RUNNER_TEMP/mmm-engine/build" -DMMM_NATIVE=OFF
+          cmake --build "$RUNNER_TEMP/mmm-engine/build" -- -j"$(nproc)"
+          "$RUNNER_TEMP/mmm-engine/build/mmm_tests"
+      - name: Data prep, fit, optimize, report, plan quality
+        run: MMM="$RUNNER_TEMP/mmm-engine/build/mmm" tests/test_skill.sh
+      - name: Zip matches the skill folder
+        run: python3 tests/check_zip.py
+
+  video:
+    name: Demo video project type-checks
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: demo-video
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npx tsc --noEmit -p .
