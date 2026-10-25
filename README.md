@@ -16,7 +16,7 @@ Agent skill: marketing mix modelling from weekly sales and spend. Find where you
 
 ## What it does
 
-- Turns daily or long-format data into a weekly CSV, with data checks
+- Turns daily or long-format data into a weekly CSV, with data checks (gaps, constant or correlated channels, history length)
 - Fits adstock, saturation, trend and seasonality with [mmm-engine](https://github.com/yablokolabs/mmm-engine) (C++, ~20 ms)
 - Scores the model on the last 13 weeks it never saw; stops if accuracy is too low
 - Reports each channel's share, total ROI and **marginal ROI**
@@ -25,9 +25,9 @@ Agent skill: marketing mix modelling from weekly sales and spend. Find where you
 
 ## Needs
 
-- git, CMake 3.27+, GCC 13+ or Clang 17+ (one-time engine build, under a minute)
-- Python 3.9+ (standard library only)
-- No API keys; runs offline
+- Python 3.9+ (standard library only), curl
+- Engine: `bash skills/mmm-budget-optimizer/scripts/install_engine.sh` installs a checksum-verified prebuilt binary (Linux x86-64/arm64, macOS Apple Silicon) in ~1 s; other systems build from source (git, CMake, GCC 13+) or use Docker
+- No API keys; runs offline after install
 
 ## Result on the bundled example
 

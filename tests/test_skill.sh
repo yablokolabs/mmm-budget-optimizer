@@ -6,7 +6,7 @@ set -euo pipefail
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
 skill="$root/skills/mmm-budget-optimizer"
-MMM="${MMM:-$HOME/.local/share/mmm-engine/build/mmm}"
+MMM="${MMM:-$HOME/.local/share/mmm-engine/bin/mmm}"
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 cd "$work"
@@ -50,7 +50,22 @@ if python3 "$skill/scripts/prepare_data.py" --wide bad.csv --out x.csv 2> err.tx
 fi
 grep -q "radio: constant spend" err.txt && echo "   rejected with a clear error"
 
-echo "3. fit, optimize, forecast, report"
+echo "3. duplicated channel is refused by prepare_data.py and mmm fit"
+python3 - "$skill/examples/history.csv" <<'PY'
+import csv, sys
+rows = list(csv.reader(open(sys.argv[1])))
+w = csv.writer(open("twin.csv", "w", newline=""))
+w.writerow(rows[0] + ["search_copy"])
+for r in rows[1:]:
+    w.writerow(r + [f"{2 * float(r[3]):.2f}"])
+PY
+if python3 "$skill/scripts/prepare_data.py" --check twin.csv 2> err.txt; then echo "prepare_data accepted a twin"; exit 1; fi
+grep -q "moves together" err.txt
+if "$MMM" fit --data twin.csv --output twin.json 2> err.txt; then echo "mmm fit accepted a twin"; exit 1; fi
+grep -q "moves together" err.txt && echo "   both refused"
+python3 "$skill/scripts/prepare_data.py" --check "$skill/examples/history.csv"
+
+echo "4. fit, optimize, forecast, report"
 cp "$skill/examples/"{truth.json,grade.py} .
 "$MMM" fit --data long.csv --target sales --holdout 13 --output model.json
 "$MMM" optimize --config model.json --bound 0.5 --output plan.json
@@ -60,7 +75,7 @@ grep -q "Confidence: \*\*good\*\*" report.md
 grep -q "Recommended weekly budget" report.md
 echo "   report written"
 
-echo "4. plan quality on the true curves"
+echo "5. plan quality on the true curves"
 python3 grade.py | tee grade.txt
 captured=$(tail -1 grade.txt | sed -E 's/.*captures ([0-9]+)%.*/\1/')
 [ "$captured" -ge 80 ] || { echo "plan captured only $captured%"; exit 1; }

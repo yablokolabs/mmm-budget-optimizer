@@ -30,7 +30,7 @@ Marketing mix modelling from weekly sales and spend. See each channel's marginal
 Built on [mmm-engine](https://github.com/yablokolabs/mmm-engine) (C++, MIT, Yabloko Labs).
 
 ### What you get
-- Weekly CSV from daily or long-format data, with checks for gaps, negatives, constant channels, history length
+- Weekly CSV from daily or long-format data, with checks for gaps, negatives, constant or correlated channels, history length
 - Model fit in ~20 ms: adstock, saturation, trend, seasonality
 - Accuracy on the last 13 weeks the fit never saw; stops if too low to act on
 - Per channel: share of sales, total ROI, **marginal ROI**, carryover, curve shape
@@ -49,7 +49,8 @@ Built on [mmm-engine](https://github.com/yablokolabs/mmm-engine) (C++, MIT, Yabl
 - Plan on the true curves: ≥ 92% of best lift on 9 of 10, 63% on 1
 
 ### Runs
-- Offline after a one-time build (under a minute)
+- One-command install: prebuilt, checksum-verified engine (Linux, macOS Apple Silicon); source build fallback
+- Offline after install
 - No API keys, no cloud accounts
 - Your data stays on your machine
 
@@ -138,7 +139,7 @@ Which channel should get more budget? Keep the same total. Show what we gain.
 ## Step 4: Compatibility note
 
 ```
-git, CMake 3.27+, GCC 13+ or Clang 17+ (one-time build, under a minute). Python 3.9+, standard library only. Offline. No API keys. Tested on Linux in CI.
+Python 3.9+ and curl. Engine installs in ~1 s as a checksum-verified binary on Linux x86-64/arm64 (glibc 2.38+) and macOS Apple Silicon; other systems build from source (git, CMake 3.27+, GCC 13+) or use Docker. Offline after install. No API keys. Tested in CI on Linux and macOS.
 ```
 
 ---
@@ -162,11 +163,10 @@ git, CMake 3.27+, GCC 13+ or Clang 17+ (one-time build, under a minute). Python 
 **Required tools & software** (one per line)
 
 ```
-git
-CMake 3.27+
-C++23 compiler (GCC 13+ or Clang 17+)
 Python 3.9+
-mmm-engine (built by the skill from github.com/yablokolabs/mmm-engine)
+curl
+mmm-engine (installed by scripts/install_engine.sh from github.com/yablokolabs/mmm-engine releases)
+git, CMake, GCC 13+ (only if no prebuilt binary fits)
 ```
 
 **Tools used:** tick **Terminal / Shell**, **Read Files**, **Write Files**, **Network Access**. Leave **Browser** and **Environment Variables** unticked.
@@ -188,7 +188,7 @@ mmm-report.md
 
 ```
 - Shell: builds and runs the mmm CLI, runs bundled Python scripts
-- Network: one-time git clone of mmm-engine; modelling runs offline
+- Network: one-time download of the mmm-engine release binary (SHA-256 verified); modelling runs offline
 - Data never leaves the machine
 ```
 

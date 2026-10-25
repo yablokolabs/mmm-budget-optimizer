@@ -10,18 +10,27 @@ permissions:
 
 jobs:
   skill:
-    name: Skill end to end
-    runs-on: ubuntu-24.04
+    name: Skill end to end (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux, prebuilt engine
+            os: ubuntu-24.04
+          - name: macos, prebuilt engine
+            os: macos-14
+          - name: linux, engine from source
+            os: ubuntu-24.04
+            from_source: "1"
     steps:
       - uses: actions/checkout@v4
-      - name: Build mmm-engine (main)
-        run: |
-          git clone --depth 1 https://github.com/yablokolabs/mmm-engine "$RUNNER_TEMP/mmm-engine"
-          cmake -S "$RUNNER_TEMP/mmm-engine" -B "$RUNNER_TEMP/mmm-engine/build" -DMMM_NATIVE=OFF
-          cmake --build "$RUNNER_TEMP/mmm-engine/build" -- -j"$(nproc)"
-          "$RUNNER_TEMP/mmm-engine/build/mmm_tests"
-      - name: Data prep, fit, optimize, report, plan quality
-        run: MMM="$RUNNER_TEMP/mmm-engine/build/mmm" tests/test_skill.sh
+      - name: Install engine with the skill's installer
+        env:
+          MMM_FROM_SOURCE: ${{ matrix.from_source || '0' }}
+        run: echo "MMM=$(bash skills/mmm-budget-optimizer/scripts/install_engine.sh)" >> "$GITHUB_ENV"
+      - name: Data checks, fit, optimize, report, plan quality
+        run: tests/test_skill.sh
       - name: Zip matches the skill folder
         run: python3 tests/check_zip.py
 

@@ -35,7 +35,7 @@ Example: 4 channels need at least 2 × 11 + 13 = 35 weeks to run, 104+ to trust.
 
 - **Variation.** Spend that moves week to week. A flat line looks like baseline.
 - **Some dark weeks** help the most. Flighted channels (on/off) separate cleanly.
-- **Independence.** Two channels that always rise and fall together cannot be split. Merge them.
+- **Independence.** Two channels that always rise and fall together cannot be split. `prepare_data.py` and `mmm fit` refuse pairs at r ≥ 0.98 and warn from r ≥ 0.90. Merge them.
 - **Size.** Channels under ~5% of spend rarely show a measurable effect. Group them as `other`.
 
 ## Converting other shapes
@@ -44,6 +44,7 @@ Example: 4 channels need at least 2 × 11 + 13 = 35 weeks to run, 104+ to trust.
 
 | Input | Command |
 | --- | --- |
+| weekly CSV, any week labels | `--check history.csv` (validate only) |
 | daily wide CSV (`date,sales,tv,...`) | `--wide daily.csv` |
 | sales and spend in separate files, spend long (`date,channel,spend`) | `--sales sales.csv --spend spend.csv` |
 

@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.1.0
+
+From user feedback: engine builds were blocked by agent permission checks, and perfectly correlated channels passed the data check.
+
+### Changed
+- Engine install is one command: `scripts/install_engine.sh` downloads the prebuilt binary for Linux x86-64/arm64 or macOS Apple Silicon, verifies its SHA-256, and builds from source only as a fallback. No compiler needed on supported systems.
+- If an agent's permissions block the install, `SKILL.md` tells it to hand the user the one command instead of retrying.
+- Needs [mmm-engine v0.2.1](https://github.com/yablokolabs/mmm-engine/releases/tag/v0.2.1)+.
+
+### Added
+- `prepare_data.py` refuses channel pairs whose spend correlates at r >= 0.98, warns from 0.90. `mmm fit` v0.2.1 refuses the same pairs and constant channels.
+- `prepare_data.py --check` validates a weekly CSV as-is; `SKILL.md` runs it on every input.
+- CI runs the skill on Linux and macOS with the prebuilt engine, and on Linux with a source build.
+
 ## v1.0.0
 
 ### Skill
